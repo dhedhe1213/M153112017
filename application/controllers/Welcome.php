@@ -23,3 +23,5 @@ class Welcome extends CI_Controller {
 		$this->load->view('welcome_message');
 	}
 }
+
+#i want to do first commit on the github
