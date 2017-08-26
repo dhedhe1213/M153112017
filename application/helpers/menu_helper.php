@@ -30,7 +30,7 @@ function getMenu()
                     echo"<div class='col-md-4 header-navigation-col'>";
                     echo"<h4>".$data2['menu']."</h4>";
 
-                    $category_2 = $ci->mitra->getwhere('r_cat_item', array('parent_id' => $data2['id']), 1);
+                    $category_2 = $ci->mitra->getwhere('r_cat_item', array('parent_id' => $data2['id']), 1,false,false,array('param'=>'menu','by'=>'asc'));
                     if ($category_2) {
                         foreach ($category_2 as $hasil) {
                             echo "
@@ -84,8 +84,8 @@ function newItemMenu()
                                         <a href='" . base_url('mitra/item_detail/' . $row['id']) . "'><img src='" . base_url('assets/images/products/' . $getImages['img']) . "' class='img-responsive' alt='{$row['nama']}'></a>
             </div>
             <h3><a href='" . base_url('mitra/item_detail/' . $row['id']) . "'>{$row['nama']}</a></h3>
-            <div class='pi-price'>".number_format($getHarga['harga_fix'],0)."</div>
-            <a href='javascript:;' class='btn btn-default add2cart' onclick='add_to_catalog({$row['id']})'>Add to Catalog</a>
+            <div class='pi-price'> Rp. ".number_format($getHarga['harga_fix'],0)."</div>
+
             </div>
             </div>
             ";

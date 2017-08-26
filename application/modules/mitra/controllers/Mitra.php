@@ -513,6 +513,10 @@ class Mitra extends MY_Controller
 
     public function catalog_detail($id = false)
     {
+        $idUser = $this->session->userdata('id');
+        $cek_catalog = $this->mitra->getwhere('t_catalog',array('id_user'=>$idUser));
+
+
         $id_clean = strip_tags($id);
 
         $item = $this->mitra->getwhere('t_item',array('id'=>$id_clean));
@@ -522,6 +526,7 @@ class Mitra extends MY_Controller
         $item_review = $this->mitra->getwhereCustom('t_item_review','AVG(rate) rate_avg',array('id_item'=>$id_clean));
 
         if($item && $item_harga && $item_images) {
+            $this->data['nm_catalog'] = $cek_catalog['nm_catalog'];
             $this->data['main_view'] = 'content/catalog_detail';
             $this->data['item'] = $item;
             $this->data['item_harga'] = $item_harga;
@@ -1068,15 +1073,15 @@ class Mitra extends MY_Controller
                 }
             }
 
-            $cekTotalInvoice = $this->db->get_where('t_transaksi_item',array('id_transaksi'=>$id_transaksi))->num_rows();
-            if($cekTotalInvoice > 1){
+            $cekTotalInvoice = $this->db->get_where('t_transaksi_item',array('id_transaksi'=>$id_transaksi,'no_invoice <>'=>$no_invoice))->num_rows();
+            if($cekTotalInvoice > 0){
 
                 $this->mitra->delete('t_transaksi_item',array('no_invoice'=>$no_invoice));
 
-                $cekAllItem = $this->db->get_where('t_transaksi_item',array('id_transaksi'=>$id_transaksi,'status'=>1))->num_rows();
-                if($cekAllItem == 0){
-                    $this->mitra->update('t_transaksi',array('id'=>$id_transaksi),array('status'=>4));
-                }
+//                $cekAllItem = $this->db->get_where('t_transaksi_item',array('id_transaksi'=>$id_transaksi,'status'=>2))->num_rows();
+//                if($cekAllItem == 0){
+//                    $this->mitra->update('t_transaksi',array('id'=>$id_transaksi),array('status'=>4));
+//                }
 
                 if($insertDataTransaksiFailed && $insertDataTransaksiItemFailed){
                     $response = array('error'=>false,'title'=>'Konfirmasi Berhasil','pesan'=>'','link'=>base_url('mitra/catalog_pengiriman'));
@@ -1158,7 +1163,7 @@ class Mitra extends MY_Controller
         $GetCatalog = $this->mitra->getwhere('t_catalog',array('id_user'=>$id));
         $this->data['main_view'] = 'content/daftar_transaksi_refund';
 
-        $this->data['data'] = $this->mitra->getwhere('t_transaksi_failed',array('nm_catalog'=>$GetCatalog['nm_catalog']),1);
+        $this->data['data'] = $this->mitra->getwhere('t_transaksi_failed',array('nm_catalog'=>$GetCatalog['nm_catalog']),1,false,'nm_catalog');
         $this->load->view('template', $this->data);
     }
 
@@ -1167,7 +1172,16 @@ class Mitra extends MY_Controller
         $id = $this->session->userdata('id');
 
         $this->data['main_view'] = 'content/hist_transfer';
-        $this->data['data'] = $this->mitra->getwhere('m_payment',array('id_user'=>$id,'role'=>'reseller'),1,false,false,array('param'=>'id','by'=>'desc'));
+        $this->data['data'] = $this->mitra->getwhere('m_payment',array('id_user'=>$id,'role'=>'reseller','payment_refund'=>'0'),1,false,false,array('param'=>'id','by'=>'desc'));
+        $this->load->view('template', $this->data);
+    }
+
+    public function histTransferRefund()
+    {
+        $id = $this->session->userdata('id');
+
+        $this->data['main_view'] = 'content/hist_transfer_refund';
+        $this->data['data'] = $this->mitra->getwhere('m_payment',array('id_user'=>$id,'role'=>'reseller','payment_refund'=>'1'),1,false,false,array('param'=>'id','by'=>'desc'));
         $this->load->view('template', $this->data);
     }
 
@@ -1506,7 +1520,7 @@ class Mitra extends MY_Controller
         }
 
         $getData = $this->mitra->getwhere('t_transaksi_item_failed',array('no_invoice'=>$noInvoice));
-        $getDataTransaksi = $this->mitra->getwhere('m_transaksi_failed',array('id'=>$getData['id_transaksi']));
+        $getDataTransaksi = $this->mitra->getwhere('t_transaksi_failed',array('id'=>$getData['id_transaksi']));
         $getIdUser = $this->mitra->getwhere('t_catalog',array('nm_catalog'=>$getDataTransaksi['nm_catalog']));
         $getDataUser = $this->mitra->getwhere('m_user',array('id'=>$getIdUser['id_user']));
 

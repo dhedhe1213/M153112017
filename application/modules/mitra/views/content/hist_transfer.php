@@ -44,7 +44,6 @@
                                                         foreach($getIdPayment as $data){
                                                             #jika refund
 
-                                                            if($row['payment_refund'] <> 1){
                                                                 $getIdTransaksi = $this->db->get_where('m_transaksi_item',array('id_transaksi'=>$data['id_transaksi']))->result_array();
                                                                 if($getIdTransaksi){
 
@@ -65,28 +64,7 @@
                                                                     }
 
                                                                 }
-                                                            }else{
-                                                                $getIdTransaksi = $this->db->get_where('m_transaksi_item_failed',array('id_transaksi'=>$data['id_transaksi']))->result_array();
-                                                                if($getIdTransaksi){
 
-                                                                    foreach($getIdTransaksi as $data2){
-                                                                        $getDataItem = $this->db->get_where('m_item',array('id'=>$data2['id_item'],'id_transaksi'=>$data['id_transaksi']))->row_array();
-                                                                        $getDataItemHarga = $this->db->get_where('m_item_harga',array('id_item'=>$data2['id_item'],'id_transaksi'=>$data['id_transaksi']))->row_array();
-                                                                        $getOngkir = $this->db->get_where('m_transaksi_item_failed', array('no_invoice' => $data2['no_invoice'],'no_resi'=> 0))->row_array();
-
-                                                                        $komisi = array();
-                                                                        $count = $getDataItemHarga['harga_seller'] * $data2['qty'];
-                                                                        $komisi[] = $count;
-                                                                        $totalKomisi[] = $count;
-                                                                        $ongkir[] = $getOngkir['ongkir'];
-                                                                        ?>
-                                                                        <tr><td><?php echo "<a style='color:#ff1493;' href='".base_url('mitra/cetakHistoryRefund/'.$data2['no_invoice'])."' target=_blank>".$data2['no_invoice']."</a></br>";?></td><td><?php echo $getDataItem['nama'];?></td><td><?php echo number_format(array_sum($komisi),0);?></td></tr>
-                                                                        <?php
-                                                                        reset($komisi);
-                                                                    }
-
-                                                                }
-                                                            }
                                                         }
                                                     }
                                                     ?>

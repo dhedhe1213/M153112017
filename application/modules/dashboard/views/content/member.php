@@ -31,6 +31,8 @@
                             <thead>
                             <tr>
                                 <th>No</th>
+                                <th width="25%">Nama</th>
+                                <th>Phone</th>
                                 <th>Email</th>
                                 <th >Password</th>
                                 <th>Media Daftar</th>
@@ -48,6 +50,8 @@
                                     ?>
                                     <tr>
                                         <td><?php echo $no;?></td>
+                                        <td><?php echo $row['name'];?></td>
+                                        <td><?php echo $row['phone'];?></td>
                                         <td><?php echo $row['email'];?></td>
                                         <td><?php echo substr($row['password'],0,15);?>****</td>
                                         <td><?php echo $row['oauth_provider'];?></td>

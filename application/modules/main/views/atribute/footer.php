@@ -45,7 +45,7 @@
                         if($new_member){
                             foreach($new_member as $row){
                                 ?>
-                                <li><img title="<?php clean_and_print($row['name']); ?>" src="<?php echo $row['picture_url_thumb']; ?>"></li>
+                                <li><img title="<?php clean_and_print($row['name']); ?>" src="<?php if(empty($row['picture_url_thumb'])){echo '//mitrareseller.com/assets/images/user/default.png';}else{echo $row['picture_url_thumb'];} ?>"></li>
                             <?php
                             }
                         }

@@ -68,6 +68,8 @@
 
                     </div><!-- table responsive -->
                 </div><!-- /.box-body -->
+                <br>
+               *Silahkan cek menu DAFTAR TRANSAKSI setelah anda konfirmasi pengiriman barang
             </div><!-- /.box -->
 
 

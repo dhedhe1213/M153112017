@@ -86,7 +86,10 @@
                                                             <td width="50%"><a href="<?php echo base_url('mitra/item_detail/'.$row['id']);?>" style="color: #3e4d5c;"><img src="<?php if($getItemImages){ echo base_url('assets/images/products/'.$getItemImages['img']);} ?>" style="width: 40px;float:left;margin: 3px;"><?php echo $data['nama'];?></p></a></td>
                                                             <td width="10%"><?php echo number_format($getHarga['harga_fix'],0,'','.');?></td>
                                                             <td width="10%"><?php echo $qty[$data['id']];?></td>
-                                                            <td width="10%"><?php $kg = $data['berat']/1000; echo $kg;?></td>
+                                                            <td width="10%"><?php
+                                                                $kg = $data['berat']/1000 * $qty[$data['id']];
+                                                                echo $kg;
+                                                                ?></td>
                                                             <td width="10%"><?php echo number_format($subtotal[$data['id']],0,'','.');?></td>
 
                                                         </tr>

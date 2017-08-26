@@ -18,7 +18,7 @@ function cekHarga($tipeKurir = false,$berat = false,$kotaAsal = false,$kotaTujua
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
-        CURLOPT_URL => "http://rajaongkir.com/api/starter/cost",
+        CURLOPT_URL => "https://rajaongkir.com/api/starter/cost",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
@@ -44,7 +44,9 @@ function cekHarga($tipeKurir = false,$berat = false,$kotaAsal = false,$kotaTujua
         //echo "cURL Error #:" . $err;
         echo "<option>Maaf terjadi masalah pada server...</option>";
     } else {
+
         $hasil = json_decode($response, true);
+
         echo "<option value=''>Pilih Layanan</option>";
         for($i=0; $i<count($hasil['rajaongkir']['results'][0]['costs']); $i++) {
            if($hasil['rajaongkir']['results'][0]['costs'][$i]['description'] <> 'JNE Trucking') {

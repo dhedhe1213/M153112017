@@ -6,7 +6,10 @@
     var base_url = '<?php echo base_url();?>';
 </script>
 <script src="<?php echo base_url(); ?>assets/js_ajax/mitra.js" type="text/javascript"></script>
+<script src="<?php echo base_url(); ?>assets/js_ajax/mitra_catalog.js" type="text/javascript"></script>
 <!-- End AJAX JS -->
+
+<input type="hidden" name="nm_catalog" id="nm_catalog" value="<?php echo $nm_catalog;?>">
 
 <!-- BEGIN CONTENT -->
 <div class="col-md-9 col-sm-7">

@@ -41,15 +41,21 @@
                         if ($data){
                             $no = 1;
                             foreach($data as $row){
+
                                 $getIdReseller = $this->db->get_where('t_catalog',array('nm_catalog'=>$row['nm_catalog']))->row_array();
                                 $getDataReseller = $this->db->get_where('m_user',array('id'=>$getIdReseller['id_user']))->row_array();
 
                                 $totalKomisi = array();
                                 $seller = array();
                                 $ongkir = array();
-                                $getTransaksi = $this->db->get_where('t_transaksi_failed',array('nm_catalog'=>$row['nm_catalog']))->result_array();
+                                $getTransaksi = $this->db->group_by('nm_catalog')->get_where('t_transaksi_failed',array('nm_catalog'=>$row['nm_catalog']))->result_array();
                                 if($getTransaksi) {
                                     foreach($getTransaksi as $data){
+                                        #cek transaksi tunggal atau ada invoice lain
+                                        $cekTransaksi = $this->db->get_where('t_transaksi',array('id'=>$data['id']))->num_rows();
+                                        $cekMTransaksi = $this->db->get_where('m_transaksi',array('id'=>$data['id']))->num_rows();
+
+                                        #---
                                         $getTransaksiItem = $this->db->get_where('t_transaksi_item_failed', array('id_transaksi' => $data['id']))->result_array();
 
                                         if($getTransaksiItem){
@@ -70,6 +76,10 @@
 
                                             }
 
+                                        }
+
+                                        if($cekTransaksi < 1 && $cekMTransaksi < 1){
+                                            $totalKomisi[] = $data['kode_unik'];
                                         }
 
                                     }

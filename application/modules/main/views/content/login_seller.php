@@ -32,6 +32,13 @@ if(empty($authUrl)) {
 
 <!-- BEGIN CONTENT -->
 <div class="col-md-12 col-sm-12">
+    <?php
+    $getStatusSystem = $this->db->get('m_maintenance')->row_array();
+    if($getStatusSystem['status'] == '1'){
+        echo "Mohon maaf, Kami sedang melakukan perbaikan system...";
+        echo"</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>";
+    }else{
+    ?>
     <h1>Login Affiliate Member</h1>
     <div class="content-form-page">
         <div class="row">
@@ -90,6 +97,9 @@ if(empty($authUrl)) {
             </div>
         </div>
     </div>
+    <?php
+    }
+    ?>
 </div>
 <!-- END CONTENT -->
          

@@ -68,6 +68,9 @@
                         </table>
 
                     </div><!-- table responsive -->
+                    </br>
+                    *Setelah pembayaran di konfirmasi, silahkan cek barang anda pada menu STATUS PENGIRIMAN
+
                 </div><!-- /.box-body -->
             </div><!-- /.box -->
 

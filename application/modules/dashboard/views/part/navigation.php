@@ -72,6 +72,7 @@
                       <li><a href="<?php echo base_url('dashboard/komentarCatalog'); ?>"><i class="fa fa-comment"></i> <span>Review Catalog</span></a></li>
                       <li><a href="<?php echo base_url('dashboard/paymentPlatform'); ?>"><i class="fa fa-money"></i> <span>Payment Platform</span></a></li>
                       <li><a href="<?php echo base_url('dashboard/backupDatabase'); ?>"><i class="fa fa-copy"></i> <span>Backup Database</span></a></li>
+                      <li><a href="<?php echo base_url('dashboard/maintenance'); ?>"><i class="fa fa-copy"></i> <span>Maintenance System</span></a></li>
                   </ul>
               </li>
               <li class="treeview">

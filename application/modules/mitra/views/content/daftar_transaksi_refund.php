@@ -30,6 +30,10 @@
                             if($data){
                                 $no = 1;
                                 foreach($data as $row){
+                                    #cek transaksi tunggal atau ada invoice lain
+                                    $cekTransaksi = $this->db->get_where('t_transaksi',array('id'=>$row['id']))->num_rows();
+                                    $cekMTransaksi = $this->db->get_where('m_transaksi',array('id'=>$row['id']))->num_rows();
+                                    #---
                                     $getIdInvoice = $this->db->group_by('no_invoice')->get_where('t_transaksi_item_failed',array('id_transaksi'=>$row['id']))->result_array();
                                     $getIdItem = $this->db->get_where('t_transaksi_item_failed',array('id_transaksi'=>$row['id']))->result_array();
                                     ?>
@@ -58,7 +62,15 @@
                                                 }
                                             }
 
-                                            echo number_format(array_sum($subKomisi),0);
+                                            if($cekTransaksi < 1 && $cekMTransaksi <1){
+                                                $komisi_total[] = $row['kode_unik'];
+                                                $subKomisiCount = array_sum($subKomisi) + $row['kode_unik'];
+
+                                            }else{
+                                                $subKomisiCount = array_sum($subKomisi);
+                                            }
+
+                                            echo number_format($subKomisiCount,0);
                                             reset($subKomisi);
                                             ?>
 

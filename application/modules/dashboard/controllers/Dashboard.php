@@ -788,7 +788,7 @@ class Dashboard extends My_Controller
         $cekPaymentReseller = $this->dashboard->getwhere('t_transaksi',array('id'=>$getIdTransakSingle['id_transaksi']));
 
         if($cekPaymentReseller['payment_reseller'] <> '1'){
-           $response = array('error'=>false,'title'=>'Reseller harus dibayar terlebih dahulu','pesan'=>'');
+           $response = array('error'=>true,'title'=>'Warning','pesan'=>'Reseller harus dibayar lebih dulu/transaksi belum selesai di reseller');
            echo json_encode($response);
            exit;
         }
@@ -960,6 +960,30 @@ class Dashboard extends My_Controller
 
         }else{
             echo"<script>alert('Password Salah');window.location.href='".base_url('dashboard/backupDatabase')."'</script>";
+            exit;
+        }
+    }
+
+    public function maintenance()
+    {
+        $this->data['page_title'] = 'Manage System';
+        $this->data['main_view'] = 'content/maintenance';
+        $this->data['data'] = $this->dashboard->get('m_maintenance');
+        $this->load->view('template_content', $this->data);
+    }
+
+
+    public function act_maintenance($value = '0')
+    {
+        
+        $update_maintenance = $this->dashboard->update('m_maintenance', array('id' => '1'), array('status' => $value));
+
+        if ($value == '0') {
+            echo"<script>alert('Maintenance Mode OFF');window.location.href='".base_url('dashboard/maintenance')."'</script>";
+            exit;
+        }else{
+            $update_all_session = $this->dashboard->update('log_sessions', array('id_user <>' => '10001'), array('id_sessions' => 'maintenance'));
+            echo"<script>alert('Maintenance Mode ON');window.location.href='".base_url('dashboard/maintenance')."'</script>";
             exit;
         }
     }

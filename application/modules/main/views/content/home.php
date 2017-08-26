@@ -26,10 +26,20 @@ if(empty($authUrl)) {
 
 <!-- BEGIN CONTENT -->
 <div class="col-md-12 col-sm-12">
+    <?php
+    $getStatusSystem = $this->db->get('m_maintenance')->row_array();
+    if($getStatusSystem['status'] == '1'){
+        echo "Mohon maaf, Kami sedang melakukan perbaikan system...";
+        echo"</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>";
+    }else{
+    ?>
     <h1>Login</h1>
     <div class="content-form-page">
+
         <div class="row">
             <div class="col-md-7 col-sm-7">
+
+
                 <form id="login-form-content" class="form-horizontal form-without-legend" role="form">
                     <div class="form-group">
                         <label for="email" class="col-lg-4 control-label">Email <span class="require">*</span></label>
@@ -84,7 +94,11 @@ if(empty($authUrl)) {
                 </div>
             </div>
         </div>
+
     </div>
+    <?php
+    }
+    ?>
 </div>
 <!-- END CONTENT -->
          

@@ -23,6 +23,8 @@
             <?php } ?>
             <li><a href="<?php echo base_url('mitra/histTransfer');?>">Riwayat Transfer</a></li>
             <li><a href="<?php echo base_url('mitra/daftarTransaksiRefund');?>">Status Refund</a></li>
+            <li><a href="<?php echo base_url('mitra/histTransferRefund');?>">Riwayat Transfer Refund</a></li>
+
 
 <!--            <li><a href="javascript:;">Masukan ID Teman</a></li>-->
             <?php if(!$cek_catalog){?>

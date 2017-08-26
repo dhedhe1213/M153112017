@@ -31,7 +31,7 @@
                             <th width="5%">No</th>
                             <th>Nama Reseller</th>
                             <th>Data Transaksi</th>
-                            <th>Total Komisi</th>
+                            <th>Total Harga</th>
                             <th>Bukti</th>
                             <th>Tanggal</th>
                         </tr>
@@ -41,7 +41,7 @@
                         if($data){
                             $no = 1;
                             foreach($data as $row){
-                                $getIdPayment = $this->db->get_where('m_payment_item',array('id_payment'=>$row['id']))->result_array();
+                                $getIdPayment = $this->db->group_by('id_payment')->get_where('m_payment_item',array('id_payment'=>$row['id']))->result_array();
                                 $getDataSeller = $this->db->get_where('m_user',array('id'=>$row['id_user']))->row_array();
                                 ?>
                                 <tr>
@@ -49,13 +49,18 @@
                                     <td><?php echo $getDataSeller['name'];?></td>
                                     <td>
                                         <table class="table table-bordered table-striped">
-                                            <tr><th>No Invoice</th><th>Nama Barang</th><th>Komisi</th></tr>
+                                            <tr><th>No Invoice</th><th>Nama Barang</th><th>Harga</th></tr>
 
                                             <?php
                                             if($getIdPayment){
                                                 $totalKomisi = array();
                                                 $ongkir = array();
                                                 foreach($getIdPayment as $data){
+                                                    #cek transaksi tunggal atau ada invoice lain
+                                                    $cekTransaksi = $this->db->get_where('t_transaksi',array('id'=>$data['id_transaksi']))->num_rows();
+                                                    $cekMTransaksi = $this->db->get_where('m_transaksi',array('id'=>$data['id_transaksi']))->num_rows();
+                                                    $getDataTransaksi = $this->db->get_where('m_transaksi_failed',array('id'=>$data['id_transaksi']))->row_array();
+                                                    #---
                                                     $getIdTransaksi = $this->db->get_where('m_transaksi_item_failed',array('id_transaksi'=>$data['id_transaksi']))->result_array();
                                                     if($getIdTransaksi){
                                                         foreach($getIdTransaksi as $data2){
@@ -72,17 +77,23 @@
                                                             <tr><td><?php echo $data2['no_invoice'];?></td><td><?php echo $getDataItem['nama'];?></td><td><?php echo number_format(array_sum($komisi),0);?></td></tr>
                                                             <?php
                                                             reset($komisi);
+
+
                                                         }
 
                                                     }
+                                                    if($cekTransaksi < 1 && $cekMTransaksi < 1){
+                                                        $totalKomisi[] = $getDataTransaksi['kode_unik'];
+                                                    }
                                                 }
+
                                             }
                                             ?>
 
 
                                         </table>
                                     </td>
-                                    <td><?php echo number_format(array_sum($totalKomisi)+array_sum($ongkir),0)." (sudah termasuk biaya kirim)"; reset($totalKomisi);reset($ongkir);?></td>
+                                    <td><?php echo number_format(array_sum($totalKomisi)+array_sum($ongkir),0)." (sudah termasuk biaya kirim + kode unik jika transaksi tunggal)"; reset($totalKomisi);reset($ongkir);?></td>
                                     <td><a href="<?php echo $row['link_images'];?>" target="_blank" style="color: #0000ff;">Lihat Disini</a> </td>
                                     <td><?php echo $row['created'];?></td>
                                 </tr>

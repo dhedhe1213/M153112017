@@ -50,22 +50,38 @@
                         ?>
                                 <tr>
                                     <td><?php echo $no;?></td>
-                                    <td><?php echo $row['id_transaksi'];?></td>
+                                    <td><?php
+                                        if($getDataTransaksi['status'] != '4'){
+                                            echo "<font color='#ff8c00'>".$row['id_transaksi']."</font>";
+                                        }else{
+                                            echo $row['id_transaksi'];
+                                        }
+                                        ?></td>
                                     <td><?php echo number_format($getDataTransaksi['total_pembayaran'],0);?></td>
                                     <td><?php echo $row['nm_bank_pengirim'];?></td>
                                     <td><?php echo $row['nm_rek_pengirim'];?></td>
                                     <td><?php echo $row['no_rek_pengirim'];?></td>
-                                    <td><?php echo number_format($row['jml_transfer'],0);?></td>
+                                    <td><?php
+                                        if($getDataTransaksi['total_pembayaran'] != $row['jml_transfer']){
+                                            echo "<font color='red'>".number_format($row['jml_transfer'],0)."</font>";
+                                        }else{
+                                            echo number_format($row['jml_transfer'],0);
+                                        }
+
+                                        ?></td>
                                     <td><?php echo $row['nm_bank_penerima'];?></td>
                                     <td>
                                         <?php
                                         if($row['status'] == '1'){
-                                            $TotalMasuk[] = $row['jml_transfer'];
                                             echo"Sudah di konfirmasi";
                                         }else{
                                             ?>
                                             <a href="#" onclick="sweet_confirm('<?php echo $row['id_transaksi'];?>')">Konfirmasi</a>
                                         <?php
+                                        }
+
+                                        if($getDataTransaksi['status'] == '4'){
+                                            $TotalMasuk[] = $row['jml_transfer'];
                                         }
                                         ?>
                                         </td>
@@ -81,8 +97,9 @@
                 </div><!-- table responsive -->
 
                     <h4>Total Pemasukan Rp. <?php if(!empty($TotalMasuk)){echo number_format(array_sum($TotalMasuk),0);}else{ echo "0";}?></h4>
-                    *Total pemasukan  hanya di ambil dari semua transfer yang telah di konfirmasi </br>
-                    *Konfirmasi pembayaran akan hilang otomatis satu persatu pada saat admin melakukan payment
+                    *Total pemasukan di ambil dari semua transaksi yang telah selesai ID berwarna hitam bukan orange </br>
+                    *jumlah transfer yang berwarna merah hanya sebagai pembeda dengan total tagihan, acuan utama tetap yang berada di rekening<br>
+                    *Konfirmasi pembayaran akan hilang(yang ID berwarna hitam) otomatis pada saat admin melakukan payment
                 </div><!-- /.box-body -->
                 </div><!-- /.box -->
 
