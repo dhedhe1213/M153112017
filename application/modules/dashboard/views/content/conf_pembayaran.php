@@ -45,17 +45,22 @@
                             $no = 1;
                             $TotalMasuk = array();
                             foreach($data as $row){
+                                $cekDataTransaksi = $this->db->get_where('t_transaksi',array('id'=>$row['id_transaksi']))->num_rows();
                                 $getDataTransaksi = $this->db->get_where('t_transaksi',array('id'=>$row['id_transaksi']))->row_array();
-
                         ?>
                                 <tr>
                                     <td><?php echo $no;?></td>
                                     <td><?php
-                                        if($getDataTransaksi['status'] != '4'){
-                                            echo "<font color='#ff8c00'>".$row['id_transaksi']."</font>";
+                                        if($cekDataTransaksi > 0){
+                                            if($getDataTransaksi['status'] != '4'){
+                                                echo "<font color='#ff8c00'>".$row['id_transaksi']."</font>";
+                                            }else{
+                                                echo $row['id_transaksi'];
+                                            }
                                         }else{
                                             echo $row['id_transaksi'];
                                         }
+
                                         ?></td>
                                     <td><?php echo number_format($getDataTransaksi['total_pembayaran'],0);?></td>
                                     <td><?php echo $row['nm_bank_pengirim'];?></td>
@@ -79,10 +84,17 @@
                                             <a href="#" onclick="sweet_confirm('<?php echo $row['id_transaksi'];?>')">Konfirmasi</a>
                                         <?php
                                         }
-
-                                        if($getDataTransaksi['status'] == '4'){
-                                            $TotalMasuk[] = $row['jml_transfer'];
+                                        if($cekDataTransaksi > 0){
+                                            if($getDataTransaksi['status'] == '4'){
+                                                $TotalMasuk[] = $row['jml_transfer'];
+                                            }
+                                        }else{
+                                            $cekDataTransaksiFailed = $this->db->get_where('t_transaksi_failed',array('id'=>$row['id_transaksi']))->num_rows();
+                                            if($cekDataTransaksiFailed > 0) {
+                                                $TotalMasuk[] = $row['jml_transfer'];
+                                            }
                                         }
+
                                         ?>
                                         </td>
                                 </tr>

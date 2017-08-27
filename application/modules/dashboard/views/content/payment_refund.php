@@ -40,6 +40,7 @@
                         <?php
                         if ($data){
                             $no = 1;
+                            $TotalRefundKeseluruhan = array();
                             foreach($data as $row){
 
                                 $getIdReseller = $this->db->get_where('t_catalog',array('nm_catalog'=>$row['nm_catalog']))->row_array();
@@ -91,11 +92,37 @@
                                     <td><?php echo $getDataReseller['rek']." (".$getDataReseller['an_rek'].")";?></td>
                                     <td><?php echo $getDataReseller['nm_bank'];?></td>
                                     <td><?php echo number_format(array_sum($totalKomisi) + array_sum($ongkir),0);?></td>
-                                    <td><a href="#" onclick="actPayment('<?php echo $row['nm_catalog'];?>')">Konfirmasi</a> </td>
+                                    <td>
+                                        <?php
+                                        if($cekTransaksi > 0){
+                                            $getStatusTransaksi = $this->db->get_where('t_transaksi',array('id'=>$data['id']))->row_array();
+                                            if($getStatusTransaksi['status'] == '4'){
+                                        ?>
+                                                <a href="#" onclick="actPayment('<?php echo $row['nm_catalog'];?>')">Konfirmasi</a>
+                                            <?php
+                                            }else{
+                                                echo "Transaksi Belum Selesai";
+                                            }
+                                        }else{?>
+                                            <a href="#" onclick="actPayment('<?php echo $row['nm_catalog'];?>')">Konfirmasi</a>
+                                            <?php
+                                            $TotalRefundKeseluruhan[] = array_sum($totalKomisi) + array_sum($ongkir);
+                                        }
+                                        ?>
+                                        </td>
                                 </tr>
                         <?php
                                 $no++;
                             }
+                            if($cekTransaksi > 0){
+                                $getStatusTransaksi = $this->db->get_where('t_transaksi',array('id'=>$data['id']))->row_array();
+                                if($getStatusTransaksi['status'] == '4'){
+                                    $TotalRefundKeseluruhan[] = array_sum($totalKomisi) + array_sum($ongkir);
+                                }
+                            }else{
+                                $TotalRefundKeseluruhan[] = array_sum($totalKomisi) + array_sum($ongkir);
+                            }
+
                             reset($totalKomisi);
                         }
                         ?>
@@ -103,7 +130,7 @@
                     </table>
 
                 </div><!-- table responsive -->
-
+                    <h4>Total Payment Refund Rp. <?php if(!empty($TotalRefundKeseluruhan)){echo number_format(array_sum($TotalRefundKeseluruhan),0);}else{ echo "0";}?></h4>
                 </div><!-- /.box-body -->
                 </div><!-- /.box -->
 
