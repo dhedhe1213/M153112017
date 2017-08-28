@@ -34,6 +34,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Category</th>
+                                <th>Menu Order</th>
                                 <th width="20%"></th>
                             </tr>
                             </thead>
@@ -49,6 +50,7 @@
                                         <td width="5%"><?php echo $no; ?></td>
 
                                         <td><?php if($link){ echo"<a href=".base_url('dashboard/cat_item/'.$row['id']).">".$row['menu']."</a>";}else{echo $row['menu'];}?></td>
+                                    <td><?php echo $row['menu_order'];?></td>
                                         <td align="center">
 
                                             <?php if($link) { ?>

@@ -10,7 +10,7 @@ function getMenu()
 {
     $ci = &get_instance();
     $ci->load->model('mitra_model', 'mitra');
-    $query = $ci->mitra->getwhere('r_cat_item',array('parent_id'=> 0),1,false,false,array('param'=>'menu_order','by'=>'desc'));
+    $query = $ci->mitra->getwhere('r_cat_item',array('parent_id'=> 0),1,false,false,array('param'=>'menu_order','by'=>'asc'));
     if($query){
 
         foreach ($query as $data1) {
@@ -24,13 +24,13 @@ function getMenu()
 
                             ";
             #Category ke-2
-            $category_1 = $ci->mitra->getwhere('r_cat_item', array('parent_id' => $data1['id']), 1);
+            $category_1 = $ci->mitra->getwhere('r_cat_item', array('parent_id' => $data1['id']), 1,false,false,array('param'=>'menu_order','by'=>'asc'));
             if ($category_1) {
                 foreach ($category_1 as $data2) {
                     echo"<div class='col-md-4 header-navigation-col'>";
                     echo"<h4>".$data2['menu']."</h4>";
 
-                    $category_2 = $ci->mitra->getwhere('r_cat_item', array('parent_id' => $data2['id']), 1,false,false,array('param'=>'menu','by'=>'asc'));
+                    $category_2 = $ci->mitra->getwhere('r_cat_item', array('parent_id' => $data2['id']), 1,false,false,array('param'=>'menu_order','by'=>'asc'));
                     if ($category_2) {
                         foreach ($category_2 as $hasil) {
                             echo "

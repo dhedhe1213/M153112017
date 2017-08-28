@@ -43,6 +43,10 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
                                 <input type="hidden" name="id" id="id" class="form-control" value="<?php echo $data['id'];?>" placeholder="please write something">
                                 <input type="hidden" name="parent_id" id="parent_id" class="form-control" value="<?php echo $data['parent_id'];?>" placeholder="please write something">
                                 <input type="text" name="category" id="category" class="form-control" value="<?php echo $data['menu'];?>" placeholder="please write something">
+                               </div>
+                            <div class="form-group">
+                                <label>Menu Order</label>
+                                     <input type="text" name="menu_order" id="menu_order" class="form-control" value="<?php echo $data['menu_order'];?>" placeholder="please write something">
                             </div>
 
                             <button type="button" class="btn btn-primary btn-block btn-flat" id="edit_cat">Save</button>

@@ -497,10 +497,11 @@ class Dashboard extends My_Controller
         $category = strip_tags($this->input->post('category'));
         $id = strip_tags($this->input->post('id'));
         $parent_id = strip_tags($this->input->post('parent_id'));
+        $menuOrder = strip_tags($this->input->post('menu_order'));
 
 
         if (validation_add_cat()) {
-            $update_cat = $this->dashboard->update('r_cat_item',array('id'=>$id), array('menu' => $category));
+            $update_cat = $this->dashboard->update('r_cat_item',array('id'=>$id), array('menu' => $category,'menu_order'=>$menuOrder));
             if ($update_cat) {
                 $response = array('error'=>false,'title'=>'Update Berhasil','pesan'=>'','category'=>$parent_id);
                 echo json_encode($response);
