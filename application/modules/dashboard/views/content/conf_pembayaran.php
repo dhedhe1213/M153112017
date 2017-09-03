@@ -86,12 +86,12 @@
                                         }
                                         if($cekDataTransaksi > 0){
                                             if($getDataTransaksi['status'] == '4'){
-                                                $TotalMasuk[] = $row['jml_transfer'];
+                                                $TotalMasuk[] = $getDataTransaksi['total_pembayaran'];
                                             }
                                         }else{
                                             $cekDataTransaksiFailed = $this->db->get_where('t_transaksi_failed',array('id'=>$row['id_transaksi']))->num_rows();
                                             if($cekDataTransaksiFailed > 0) {
-                                                $TotalMasuk[] = $row['jml_transfer'];
+                                                $TotalMasuk[] = $getDataTransaksi['total_pembayaran'];
                                             }
                                         }
 

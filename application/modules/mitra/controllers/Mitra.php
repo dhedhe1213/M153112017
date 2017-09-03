@@ -1078,10 +1078,10 @@ class Mitra extends MY_Controller
 
                 $this->mitra->delete('t_transaksi_item',array('no_invoice'=>$no_invoice));
 
-//                $cekAllItem = $this->db->get_where('t_transaksi_item',array('id_transaksi'=>$id_transaksi,'status'=>2))->num_rows();
-//                if($cekAllItem == 0){
-//                    $this->mitra->update('t_transaksi',array('id'=>$id_transaksi),array('status'=>4));
-//                }
+                $cekAllItem = $this->db->get_where('t_transaksi_item',array('id_transaksi'=>$id_transaksi,'status <'=>2))->num_rows();
+                if($cekAllItem == 0){
+                    $this->mitra->update('t_transaksi',array('id'=>$id_transaksi),array('status'=>4));
+                }
 
                 if($insertDataTransaksiFailed && $insertDataTransaksiItemFailed){
                     $response = array('error'=>false,'title'=>'Konfirmasi Berhasil','pesan'=>'','link'=>base_url('mitra/catalog_pengiriman'));
@@ -1117,7 +1117,7 @@ class Mitra extends MY_Controller
                     $send = kirim_email($getEmailSeller['email'],$subject,$message);
                     if(!$send){
                         #kirim email gagal ke db
-                        $this->mitra->create('m_email_monitoring',array($getEmailSeller['email'],'bug'=>$this->email->print_debugger()));
+                        $this->mitra->create('m_email_monitoring',array('email'=>$getEmailSeller['email'],'bug'=>$this->email->print_debugger()));
                     }
                     #end kirim email
 
@@ -1163,7 +1163,7 @@ class Mitra extends MY_Controller
         $GetCatalog = $this->mitra->getwhere('t_catalog',array('id_user'=>$id));
         $this->data['main_view'] = 'content/daftar_transaksi_refund';
 
-        $this->data['data'] = $this->mitra->getwhere('t_transaksi_failed',array('nm_catalog'=>$GetCatalog['nm_catalog']),1,false,'nm_catalog');
+        $this->data['data'] = $this->mitra->getwhere('t_transaksi_failed',array('nm_catalog'=>$GetCatalog['nm_catalog']),1,false,'id');
         $this->load->view('template', $this->data);
     }
 

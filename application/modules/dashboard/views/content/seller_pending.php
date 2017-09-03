@@ -44,11 +44,12 @@
                                 $awal = date_create($row['created']);
                                 $akhir = date_create(); // waktu sekarang
                                 $diff = date_diff($awal, $akhir);
+                                $getNameSeller = $this->db->get_where('m_user',array('id'=>$row['id_seller']))->row_array();
 
                                     ?>
                                     <tr>
                                         <td><?php echo $no;?></td>
-                                        <td><?php echo $row['id_seller'];?></td>
+                                        <td><?php echo $getNameSeller['name'];?></td>
                                         <td><?php echo $row['no_invoice'];?></td>
                                         <td><?php echo $row['created'];?></td>
                                         <td>

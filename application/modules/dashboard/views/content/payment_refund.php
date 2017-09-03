@@ -49,7 +49,7 @@
                                 $totalKomisi = array();
                                 $seller = array();
                                 $ongkir = array();
-                                $getTransaksi = $this->db->group_by('nm_catalog')->get_where('t_transaksi_failed',array('nm_catalog'=>$row['nm_catalog']))->result_array();
+                                $getTransaksi = $this->db->group_by('id')->get_where('t_transaksi_failed',array('nm_catalog'=>$row['nm_catalog']))->result_array();
                                 if($getTransaksi) {
                                     foreach($getTransaksi as $data){
                                         #cek transaksi tunggal atau ada invoice lain
@@ -114,15 +114,6 @@
                         <?php
                                 $no++;
                             }
-                            if($cekTransaksi > 0){
-                                $getStatusTransaksi = $this->db->get_where('t_transaksi',array('id'=>$data['id']))->row_array();
-                                if($getStatusTransaksi['status'] == '4'){
-                                    $TotalRefundKeseluruhan[] = array_sum($totalKomisi) + array_sum($ongkir);
-                                }
-                            }else{
-                                $TotalRefundKeseluruhan[] = array_sum($totalKomisi) + array_sum($ongkir);
-                            }
-
                             reset($totalKomisi);
                         }
                         ?>

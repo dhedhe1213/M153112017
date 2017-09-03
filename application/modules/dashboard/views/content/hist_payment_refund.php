@@ -41,7 +41,7 @@
                         if($data){
                             $no = 1;
                             foreach($data as $row){
-                                $getIdPayment = $this->db->group_by('id_payment')->get_where('m_payment_item',array('id_payment'=>$row['id']))->result_array();
+                                $getIdPayment = $this->db->group_by('id_transaksi')->get_where('m_payment_item',array('id_payment'=>$row['id']))->result_array();
                                 $getDataSeller = $this->db->get_where('m_user',array('id'=>$row['id_user']))->row_array();
                                 ?>
                                 <tr>
