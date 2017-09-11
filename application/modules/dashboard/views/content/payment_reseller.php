@@ -46,10 +46,10 @@
                                 $getDataReseller = $this->db->get_where('m_user',array('id'=>$getIdReseller['id_user']))->row_array();
 
                                 $totalKomisi = array();
-                                $getTransaksi = $this->db->get_where('t_transaksi',array('nm_catalog'=>$row['nm_catalog']))->result_array();
+                                $getTransaksi = $this->db->get_where('t_transaksi',array('nm_catalog'=>$row['nm_catalog'],'status'=>4))->result_array();
                                 if($getTransaksi) {
                                     foreach($getTransaksi as $data){
-                                        $getTransaksiItem = $this->db->get_where('t_transaksi_item', array('id_transaksi' => $data['id'],'no_resi <>'=> '0'))->result_array();
+                                        $getTransaksiItem = $this->db->get_where('t_transaksi_item', array('id_transaksi' => $row['id'],'no_resi <>'=> '0'))->result_array();
                                         if($getTransaksiItem){
                                             foreach($getTransaksiItem as $data2){
                                                 $getDataItem = $this->db->get_where('m_item_harga',array('id_item'=>$data2['id_item'],'id_transaksi'=>$data['id']))->result_array();

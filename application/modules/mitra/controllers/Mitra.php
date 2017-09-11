@@ -1081,6 +1081,7 @@ class Mitra extends MY_Controller
                 $cekAllItem = $this->db->get_where('t_transaksi_item',array('id_transaksi'=>$id_transaksi,'status <'=>2))->num_rows();
                 if($cekAllItem == 0){
                     $this->mitra->update('t_transaksi',array('id'=>$id_transaksi),array('status'=>4));
+                    $this->mitra->update('t_transaksi_failed',array('id'=>$id_transaksi),array('status'=>4));
                 }
 
                 if($insertDataTransaksiFailed && $insertDataTransaksiItemFailed){
@@ -1088,6 +1089,8 @@ class Mitra extends MY_Controller
                     echo json_encode($response);
                 }
             }else{
+                $this->mitra->update('t_transaksi_failed',array('id'=>$id_transaksi),array('status'=>4));
+
                 $this->mitra->delete('t_transaksi',array('id'=>$id_transaksi));
                 $this->mitra->delete('t_transaksi_item',array('id_transaksi'=>$id_transaksi));
 
@@ -1099,9 +1102,14 @@ class Mitra extends MY_Controller
         }else{
                 $updateData = $this->mitra->update('t_transaksi_item',array('no_invoice'=>$no_invoice),array('status'=>2));
                 $cekAllItem = $this->db->get_where('t_transaksi_item',array('id_transaksi'=>$id_transaksi,'status'=>1))->num_rows();
+                $cekTrFailed = $this->db->get_where('t_transaksi_failed',array('id'=>$id_transaksi,'status <'=>4))->num_rows();
+
                 if($updateData){
                     if($cekAllItem == 0){
                         $this->mitra->update('t_transaksi',array('id'=>$id_transaksi),array('status'=>4));
+                        if($cekTrFailed > 0){
+                            $this->mitra->update('t_transaksi_failed',array('id'=>$id_transaksi),array('status'=>4));
+                        }
                     }
 
                     #Send Email Confirm

@@ -42,10 +42,12 @@
                             $no = 1;
                             $TotalKomisiKeseluruhan = array();
                             foreach($data as $row){
+
                                 $getDataReseller = $this->db->get_where('m_user',array('id'=>$row['id_seller']))->row_array();
 
                                 $totalKomisi = array();
-                                $getTransaksiItem = $this->db->get_where('t_transaksi_item',array('id_seller'=>$row['id_seller']))->result_array();
+                                $getTransaksiItem = $this->db->where('id_seller',$row['id_seller'])->where('no_resi <>','0')->where('status','2')->where_in('id_transaksi', $all_id_transaksi)->get('t_transaksi_item')->result_array();
+                                //$getTransaksiItem = $this->db->get_where('t_transaksi_item',array('id_seller'=>$row['id_seller']))->result_array();
 
                                 if($getTransaksiItem) {
                                             foreach($getTransaksiItem as $data){
@@ -58,7 +60,7 @@
                                     }
                                 }
 
-                                $getOngkir = $this->db->group_by('id_transaksi')->get_where('t_transaksi_item',array('id_seller'=>$row['id_seller']))->result_array();
+                                $getOngkir = $this->db->group_by('id_transaksi')->where('id_seller',$row['id_seller'])->where('no_resi <>','0')->where('status','2')->where_in('id_transaksi', $all_id_transaksi)->get('t_transaksi_item')->result_array();
                                 $totalOngkir = array();
                                 if($getOngkir){
                                     foreach($getOngkir as $dataOngkir){

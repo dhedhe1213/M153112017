@@ -652,7 +652,7 @@ class Dashboard extends My_Controller
 
         $insertPayment = $this->dashboard->create('m_payment',array('id_user'=>$getIdUser['id_user'],'link_images'=>$link_images,'role'=>'reseller'));
         $id_payment = $this->db->insert_id();
-        $getIdTransaksi = $this->dashboard->getwhere('t_transaksi',array('nm_catalog'=>$nm_catalog,'payment_reseller' => null),1);
+        $getIdTransaksi = $this->dashboard->getwhere('t_transaksi',array('status'=>4,'nm_catalog'=>$nm_catalog,'payment_reseller' => null),1);
         if($getIdTransaksi){
             foreach($getIdTransaksi as $row){
                 $this->dashboard->create('m_payment_item',array('id_payment'=>$id_payment,'id_transaksi'=>$row['id']));
@@ -714,7 +714,7 @@ class Dashboard extends My_Controller
 
         $insertPayment = $this->dashboard->create('m_payment',array('id_user'=>$getIdUser['id_user'],'link_images'=>$link_images,'role'=>'reseller','payment_refund'=> 1));
         $id_payment = $this->db->insert_id();
-        $getIdTransaksi = $this->dashboard->getwhere('t_transaksi_failed',array('nm_catalog'=>$nm_catalog),1);
+        $getIdTransaksi = $this->dashboard->getwhere('t_transaksi_failed',array('status'=>4,'nm_catalog'=>$nm_catalog),1);
         if($getIdTransaksi){
             foreach($getIdTransaksi as $row){
                 $this->dashboard->create('m_payment_item',array('id_payment'=>$id_payment,'id_transaksi'=>$row['id']));
@@ -765,7 +765,7 @@ class Dashboard extends My_Controller
     {
         $this->data['page_title'] = 'Payment Seller';
         $this->data['main_view'] = 'content/payment_seller';
-        $getIdTransaksi = $this->dashboard->getwhere('t_transaksi',array('payment_seller'=>null),1);
+        $getIdTransaksi = $this->dashboard->getwhere('t_transaksi',array('status'=>'4','payment_seller'=>null),1);
         $in = array();
         if($getIdTransaksi){
             foreach ($getIdTransaksi as $row) {
@@ -775,6 +775,7 @@ class Dashboard extends My_Controller
             $in = "";
         }
 
+        $this->data['all_id_transaksi'] = $in;
         $this->data['data'] = $this->db->group_by('id_seller')->where('no_resi <>','0')->where('status','2')->where_in('id_transaksi', $in)->get('t_transaksi_item')->result_array();
         $this->load->view('template_content', $this->data);
 
@@ -782,22 +783,30 @@ class Dashboard extends My_Controller
 
     public function act_paymentSeller()
     {
+        #harus pake where in
         $id_seller = strip_tags($this->input->post('id_seller'));
         $link_images = strip_tags($this->input->post('bukti_transfer'));
 
-        $getIdTransakSingle = $this->dashboard->getwhere('t_transaksi_item',array('id_seller'=>$id_seller));
-        $cekPaymentReseller = $this->dashboard->getwhere('t_transaksi',array('id'=>$getIdTransakSingle['id_transaksi']));
+        $getIdTransaksi = $this->dashboard->getwhere('t_transaksi',array('status'=>'4','payment_seller'=>null),1);
+        $in = array();
+        if($getIdTransaksi){
+            foreach ($getIdTransaksi as $row) {
+                $in[] = $row['id'];	
+            }
+        }
 
-        if($cekPaymentReseller['payment_reseller'] <> '1'){
-           $response = array('error'=>true,'title'=>'Warning','pesan'=>'Reseller harus dibayar lebih dulu/transaksi belum selesai di reseller');
-           echo json_encode($response);
-           exit;
+	$cekPaymentReseller = $this->db->select('id')->where('payment_reseller',NULL)->where('status','4')->where_in('id', $in)->get('t_transaksi')->num_rows();
+
+        if($cekPaymentReseller > 0){
+            $response = array('error'=>true,'title'=>'Warning','pesan'=>'Reseller harus dibayar lebih dulu/transaksi belum selesai di reseller');
+            echo json_encode($response);
+            exit;
         }
 
         $insertPayment = $this->dashboard->create('m_payment',array('id_user'=>$id_seller,'link_images'=>$link_images,'role'=>'seller'));
         $id_payment = $this->db->insert_id();
-        $getIdTransaksi = $this->dashboard->getwhere('t_transaksi_item',array('id_seller'=>$id_seller),1,false,'id_transaksi');
 
+        $getIdTransaksi = $this->db->where('id_seller',$id_seller)->where('no_resi <>','0')->where('status','2')->where_in('id_transaksi', $in)->get('t_transaksi_item')->result_array();
 
         if($getIdTransaksi){
             foreach($getIdTransaksi as $row){
