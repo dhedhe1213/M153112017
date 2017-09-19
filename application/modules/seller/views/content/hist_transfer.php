@@ -40,10 +40,11 @@
                                                     <?php
                                                     if($getIdPayment){
                                                         $totalKomisi = array();
+                                                        $idTransaksi = array();
+                                                        $ongkir = array();
                                                         foreach($getIdPayment as $data){
                                                             $getIdTransaksi = $this->db->get_where('m_transaksi_item',array('id_transaksi'=>$data['id_transaksi']))->result_array();
-                                                           if($getIdTransaksi){
-
+                                                            if($getIdTransaksi){
                                                                 foreach($getIdTransaksi as $data2){
                                                                     $getDataItem = $this->db->get_where('m_item',array('id'=>$data2['id_item']))->row_array();
                                                                     $getDataItemHarga = $this->db->get_where('m_item_harga',array('id_item'=>$data2['id_item']))->row_array();
@@ -52,6 +53,12 @@
                                                                             $count = $getDataItemHarga['harga_seller'] * $data2['qty'];
                                                                             $komisi[] = $count;
                                                                             $totalKomisi[] = $count;
+
+                                                                    if(!in_array($data['id_transaksi'],$idTransaksi)){
+                                                                        $ongkir[] = $data2['ongkir'];
+                                                                        $idTransaksi[] = $data['id_transaksi'];
+                                                                    }
+
                                                                             ?>
                                                                             <tr><td><?php echo "<a style='color:#ff1493;' href='".base_url('seller/cetakHistory/'.$data2['no_invoice'])."' target=_blank>".$data2['no_invoice']."</a></br>";?></td><td><?php echo $getDataItem['nama'];?></td><td><?php echo number_format(array_sum($komisi),0);?></td></tr>
                                                                         <?php
@@ -66,7 +73,7 @@
 
                                             </table>
                                         </td>
-                                        <td><?php echo number_format(array_sum($totalKomisi),0); reset($totalKomisi);?></td>
+                                        <td><?php $countTotal = array_sum($totalKomisi) + array_sum($ongkir);echo number_format($countTotal,0)." (sudah termasuk ongkir)"; reset($totalKomisi);reset($ongkir);?></td>
                                         <td><a href="<?php echo $row['link_images'];?>" target="_blank" style="color: #0000ff;">Lihat Disini</a> </td>
                                         <td><?php echo $row['created'];?></td>
                                     </tr>

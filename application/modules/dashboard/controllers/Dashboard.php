@@ -806,7 +806,7 @@ class Dashboard extends My_Controller
         $insertPayment = $this->dashboard->create('m_payment',array('id_user'=>$id_seller,'link_images'=>$link_images,'role'=>'seller'));
         $id_payment = $this->db->insert_id();
 
-        $getIdTransaksi = $this->db->where('id_seller',$id_seller)->where('no_resi <>','0')->where('status','2')->where_in('id_transaksi', $in)->get('t_transaksi_item')->result_array();
+        $getIdTransaksi = $this->db->group_by('id_transaksi')->where('id_seller',$id_seller)->where('no_resi <>','0')->where('status','2')->where_in('id_transaksi', $in)->get('t_transaksi_item')->result_array();
 
         if($getIdTransaksi){
             foreach($getIdTransaksi as $row){
