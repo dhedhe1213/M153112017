@@ -56,6 +56,7 @@
               <li class="treeview">
                   <a href="#"><i class="fa fa-dollar"></i> <span>Payment</span> <i class="fa fa-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
+                      <li><a href="<?php echo base_url('dashboard/cekUntung'); ?>"><i class="fa fa-money"></i> <span>Check Untung</span></a></li>
                       <li><a href="<?php echo base_url('dashboard/paymentReseller'); ?>"><i class="fa fa-money"></i> <span>Payment Reseller</span></a></li>
                       <li><a href="<?php echo base_url('dashboard/paymentSeller'); ?>"><i class="fa fa-money"></i> <span>Payment Seller</span></a></li>
                       <li><a href="<?php echo base_url('dashboard/paymentRefund'); ?>"><i class="fa fa-money"></i> <span>Payment Refund</span></a></li>
@@ -73,6 +74,7 @@
                       <li><a href="<?php echo base_url('dashboard/paymentPlatform'); ?>"><i class="fa fa-money"></i> <span>Payment Platform</span></a></li>
                       <li><a href="<?php echo base_url('dashboard/backupDatabase'); ?>"><i class="fa fa-copy"></i> <span>Backup Database</span></a></li>
                       <li><a href="<?php echo base_url('dashboard/maintenance'); ?>"><i class="fa fa-copy"></i> <span>Maintenance System</span></a></li>
+
                   </ul>
               </li>
               <li class="treeview">

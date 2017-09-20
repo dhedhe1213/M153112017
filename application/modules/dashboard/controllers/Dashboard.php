@@ -998,6 +998,45 @@ class Dashboard extends My_Controller
         }
     }
 
+    public function cekUntung()
+    {
+
+        $kodeUnik = array();
+        $platformPayment = array();
+
+        $getTransaksi = $this->dashboard->getwhere('t_transaksi',array('status'=>4),1);
+        if($getTransaksi){
+            foreach($getTransaksi as $row){
+                $kodeUnik[] = $row['kode_unik'];
+
+                $getIdItem = $this->dashboard->getwhere('t_transaksi_item',array('id_transaksi'=>$row['id']),1);
+                if($getIdItem){
+                    foreach($getIdItem as $row2){
+                        $getData = $this->dashboard->getwhere('t_item_harga',array('id_item'=>$row2['id_item']));
+                        $platformPayment[] = $getData['platform_payment'] * $row2['qty'];
+                    }
+                }
+
+            }
+        }
+
+        $cekTotal = array_sum($kodeUnik) + array_sum($platformPayment);
+        $cekTotalFormat = number_format($cekTotal,0);
+
+
+
+        if (!empty($cekTotal)) {
+           $this->data['data'] = 'Rp. '.$cekTotalFormat;
+        }else{
+            $this->data['data'] = '0';
+        }
+
+        $this->data['page_title'] = 'Cek Untung';
+        $this->data['main_view'] = 'content/cek_untung';
+        $this->load->view('template_content', $this->data);
+
+    }
+
     public function deleteReviewItem($id = false)
     {
 
