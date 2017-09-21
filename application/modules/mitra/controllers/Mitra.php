@@ -1467,7 +1467,7 @@ class Mitra extends MY_Controller
 
         if($getData) {
             $this->data['nama_reseller'] = $getDataUser['name'];
-            $this->data['data_transaksi_item'] = $getData;
+            //$this->data['data_transaksi_item'] = $getData;
             $this->data['data_transaksi'] = $getDataTransaksi;
             $this->data['data'] = $this->mitra->getwhere('t_transaksi_item', array('no_invoice' => $noInvoice), 1);
             $this->load->view('content/cetak', $this->data);
@@ -1489,7 +1489,7 @@ class Mitra extends MY_Controller
 
         if($getData) {
             $this->data['nama_reseller'] = $getDataUser['name'];
-            $this->data['data_transaksi_item'] = $getData;
+            //$this->data['data_transaksi_item'] = $getData;
             $this->data['data_transaksi'] = $getDataTransaksi;
             $this->data['data'] = $this->mitra->getwhere('m_transaksi_item', array('no_invoice' => $noInvoice), 1);
             $this->load->view('content/cetak', $this->data);

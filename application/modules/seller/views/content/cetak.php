@@ -103,15 +103,15 @@
                         $getItem = $this->db->get_where('m_item',array('id'=>$row['id_item'],'id_transaksi'=>$data_transaksi['id']))->row_array();
                         $getItemHarga = $this->db->get_where('m_item_harga',array('id_item'=>$row['id_item'],'id_transaksi'=>$data_transaksi['id']))->row_array();
 
-                        $subTotalItem[] = $getItemHarga['harga_fix']*$data_transaksi_item['qty'];
-                        $beratTotal[] = $getItem['berat']*$data_transaksi_item['qty'];
+                        $subTotalItem[] = $getItemHarga['harga_fix']*$row['qty'];
+                        $beratTotal[] = $getItem['berat']*$row['qty'];
                 ?>
                         <tr style="font-size: 13px;">
                             <td style="text-align: left; padding: 8px 5px 8px 15px;"><?php echo $getItem['nama']; ?></td>
                             <td style="width: 120px; padding: 8px 5px;" width="120"><?php echo $data_transaksi_item['qty']; ?></td>
                             <td style="width: 65px; padding: 8px 5px;" width="65"><?php $beratKg = $getItem['berat']/1000;echo $beratKg." Kg"; ?></td>
                             <td style="width: 115px; padding: 8px 5px;" width="115"><?php echo number_format($getItemHarga['harga_fix'],0); ?></td>
-                            <td style="width: 115px; text-align: right; padding: 8px 30px 8px 5px;" width="115"><?php echo number_format($getItemHarga['harga_fix']*$data_transaksi_item['qty'],0); ?></td>
+                            <td style="width: 115px; text-align: right; padding: 8px 30px 8px 5px;" width="115"><?php echo number_format($getItemHarga['harga_fix']*$row['qty'],0); ?></td>
                         </tr>
                 <?php
                     }
