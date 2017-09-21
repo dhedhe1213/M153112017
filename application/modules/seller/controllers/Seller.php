@@ -929,7 +929,7 @@ class Seller extends MY_Controller
 
         if($getData) {
             $this->data['nama_reseller'] = $getDataUser['name'];
-            //$this->data['data_transaksi_item'] = $getData;
+            $this->data['data_transaksi_item'] = $getData;
             $this->data['data_transaksi'] = $getDataTransaksi;
             $this->data['kode_unik'] = $this->seller->getwhere('t_catalog_review_code', array('no_invoice' => $noInvoice));
             $this->data['data'] = $this->seller->getwhere('t_transaksi_item', array('no_invoice' => $noInvoice), 1);
