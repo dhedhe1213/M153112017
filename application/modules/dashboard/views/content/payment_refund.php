@@ -49,7 +49,7 @@
                                 $totalKomisi = array();
                                 $seller = array();
                                 $ongkir = array();
-                                $getTransaksi = $this->db->group_by('id_transaksi')->get_where('t_transaksi_failed',array('nm_catalog'=>$row['nm_catalog']))->result_array();
+                                $getTransaksi = $this->db->group_by('id')->get_where('t_transaksi_failed',array('nm_catalog'=>$row['nm_catalog']))->result_array();
                                 if($getTransaksi) {
                                     foreach($getTransaksi as $data){
                                         #cek transaksi tunggal atau ada invoice lain
