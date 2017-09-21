@@ -47,7 +47,7 @@
                                 $getDataReseller = $this->db->get_where('m_user',array('id'=>$getIdReseller['id_user']))->row_array();
 
                                 $totalKomisi = array();
-                                $seller = array();
+                                $noInvoice = array();
                                 $ongkir = array();
                                 $getTransaksi = $this->db->group_by('id')->get_where('t_transaksi_failed',array('nm_catalog'=>$row['nm_catalog']))->result_array();
                                 if($getTransaksi) {
@@ -69,9 +69,9 @@
                                                     }
                                                 }
 
-                                                if(!in_array($data2['id_seller'],$seller)){
+                                                if(!in_array($data2['no_invoice'],$noInvoice)){
                                                     $ongkir[] = $getOngkir['ongkir'];
-                                                    $seller[] = $data2['id_seller'];
+                                                    $noInvoice[] = $data2['no_invoice'];
                                                 }
 
 

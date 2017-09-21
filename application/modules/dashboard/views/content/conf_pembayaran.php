@@ -47,6 +47,19 @@
                             foreach($data as $row){
                                 $cekDataTransaksi = $this->db->get_where('t_transaksi',array('id'=>$row['id_transaksi']))->num_rows();
                                 $getDataTransaksi = $this->db->get_where('t_transaksi',array('id'=>$row['id_transaksi']))->row_array();
+
+                                if($cekDataTransaksi > 0){
+                                    if($getDataTransaksi['status'] == '4'){
+                                        $TotalMasuk[] = $getDataTransaksi['total_pembayaran'];
+                                    }
+                                }else{
+                                    $cekDataTransaksiFailed = $this->db->get_where('t_transaksi_failed',array('id'=>$row['id_transaksi']))->num_rows();
+                                    $getDataTransaksiFailed = $this->db->get_where('t_transaksi_failed',array('id'=>$row['id_transaksi']))->row_array();
+
+                                    if($cekDataTransaksiFailed > 0) {
+                                        $TotalMasuk[] = $getDataTransaksiFailed['total_pembayaran'];
+                                    }
+                                }
                         ?>
                                 <tr>
                                     <td><?php echo $no;?></td>
@@ -67,11 +80,24 @@
                                     <td><?php echo $row['nm_rek_pengirim'];?></td>
                                     <td><?php echo $row['no_rek_pengirim'];?></td>
                                     <td><?php
-                                        if($getDataTransaksi['total_pembayaran'] != $row['jml_transfer']){
-                                            echo "<font color='red'>".number_format($row['jml_transfer'],0)."</font>";
-                                        }else{
-                                            echo number_format($row['jml_transfer'],0);
+                                if($cekDataTransaksi > 0){
+                                    if($getDataTransaksi['total_pembayaran'] != $row['jml_transfer']){
+                                        echo "<font color='red'>".number_format($row['jml_transfer'],0)."</font>";
+                                    }else{
+                                        echo number_format($row['jml_transfer'],0);
+                                    }
+                                }else{
+                                    if($cekDataTransaksiFailed > 0) {
+                                        if ($getDataTransaksiFailed['total_pembayaran'] != $row['jml_transfer']) {
+                                            echo "<font color='red'>" . number_format($row['jml_transfer'], 0) . "</font>";
+                                        } else {
+                                            echo number_format($row['jml_transfer'], 0);
                                         }
+                                    }else{
+                                        echo "terjadi kesalahan tidak ada data transaksi dimanapun";
+                                    }
+                                }
+
 
                                         ?></td>
                                     <td><?php echo $row['nm_bank_penerima'];?></td>
@@ -84,16 +110,7 @@
                                             <a href="#" onclick="sweet_confirm('<?php echo $row['id_transaksi'];?>')">Konfirmasi</a>
                                         <?php
                                         }
-                                        if($cekDataTransaksi > 0){
-                                            if($getDataTransaksi['status'] == '4'){
-                                                $TotalMasuk[] = $getDataTransaksi['total_pembayaran'];
-                                            }
-                                        }else{
-                                            $cekDataTransaksiFailed = $this->db->get_where('t_transaksi_failed',array('id'=>$row['id_transaksi']))->num_rows();
-                                            if($cekDataTransaksiFailed > 0) {
-                                                $TotalMasuk[] = $getDataTransaksi['total_pembayaran'];
-                                            }
-                                        }
+
 
                                         ?>
                                         </td>
