@@ -97,6 +97,8 @@
                                         if($cekTransaksi > 0){
                                             $getStatusTransaksi = $this->db->get_where('t_transaksi',array('id'=>$data['id']))->row_array();
                                             if($getStatusTransaksi['status'] == '4'){
+
+                                                $TotalRefundKeseluruhan[] = array_sum($totalKomisi) + array_sum($ongkir)
                                         ?>
                                                 <a href="#" onclick="actPayment('<?php echo $row['nm_catalog'];?>')">Konfirmasi</a>
                                             <?php
