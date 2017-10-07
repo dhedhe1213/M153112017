@@ -191,6 +191,36 @@ class Dashboard extends My_Controller
         $nm_catalog = strip_tags($this->input->post('nm_catalog'));
         $level = strip_tags($this->input->post('level'));
 
+        if($level == 'gold'){
+            $hargaPoint = 1000;
+        }elseif($level == 'platinum'){
+            $hargaPoint = 2000;
+        }else{
+            $hargaPoint = 0;
+        }
+
+        $getIdUser = $this->dashboard->getwhere('t_catalog',array('nm_catalog'=>$nm_catalog));
+        $getPoint = $this->dashboard->getwhereCustom2('t_point','point',array('id_user'=>$getIdUser['id_user']));
+
+        if($getIdUser['level'] == $level){
+            echo "<script>alert('Sudah berada pada level yang diinginkan!');window.location.href= '".base_url('dashboard/catalogMember')."'</script>";
+            exit;
+        }
+
+        if($getPoint){
+            if($getPoint['point'] < $hargaPoint){
+                echo "<script>alert('Point member tidak cukup Min = {$hargaPoint} Point');window.location.href= '".base_url('dashboard/catalogMember')."'</script>";
+                exit;
+            }else{
+                $kurangPoint = $getPoint['point'] - $hargaPoint;
+                $this->dashboard->update('t_point',array('id_user'=>$getIdUser['id_user']),array('point'=>$kurangPoint));
+            }
+        }else{
+            echo "<script>alert('Point member tidak cukup Min = {$hargaPoint} Point');window.location.href= '".base_url('dashboard/catalogMember')."'</script>";
+            exit;
+        }
+
+
 
         $update_user = $this->dashboard->update('t_catalog', array('nm_catalog' => $nm_catalog), array('level' => $level));
         if ($update_user) {

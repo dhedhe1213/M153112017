@@ -48,6 +48,38 @@ class Dashboard_model extends CI_Model
         }
     }
 
+    #++++++++++++++++++++++++++++ GETWHERE CUSTOM
+
+    function getwhereCustom2($table,$select,$parameter,$isresult = false,$limit = false,$group = false,$order = false){
+        if($isresult == 1){
+
+            if($select) {
+                $this->db->select($select);
+            }
+
+            if($limit['start']){
+                $this->db->limit($limit['limit'],$limit['start']);
+            }else{
+                $this->db->limit($limit['limit']);
+            }
+
+            if($group){
+                $this->db->group_by($group);
+            }
+            if($order){
+                $this->db->order_by($order['param'],$order['by']);
+            }
+            $this->db->where($parameter);
+            $rea = $this->db->get($table);
+            return ($rea->num_rows() > 0 ? $rea->result_array() : FALSE);
+        }else{
+            $this->db->select(array($select));
+            $this->db->where($parameter);
+            $rea = $this->db->get($table);
+            return ($rea->num_rows() > 0 ? $rea->row_array() : FALSE);
+        }
+    }
+
     function count($table, $parameter)
     {
             $rea = $this->db->get_where($table, $parameter);

@@ -34,6 +34,7 @@
                                 <th>Nama Catalog</th>
                                 <th>Level</th>
                                 <th>Hits</th>
+                                <th>Point</th>
                                 <th width="10%"></th>
                             </tr>
                             </thead>
@@ -42,12 +43,16 @@
                             if($data){
                                 $no = 1;
                                 foreach($data as $row){
+                                    $getIdUser = $this->db->get_where('t_catalog',array('nm_catalog'=>$row['nm_catalog']))->row_array();
+                                    $getPoint = $this->db->get_where('t_point',array('id_user'=>$getIdUser['id_user']))->row_array();
+
                                     ?>
                                     <tr>
                                         <td><?php echo $no;?></td>
                                         <td><?php echo $row['nm_catalog'];?></td>
                                         <td><?php echo $row['level'];?></td>
                                         <td><?php echo $row['hits'];?></td>
+                                        <td><?php echo $getPoint['point'];?></td>
                                         <td align="center">
                                                                                         <a href="<?php echo base_url('dashboard/editCatalogMember/'.$row['nm_catalog']);?>" class="edit-record btn btn-default fa fa-pencil" > </a>
                                         </td>

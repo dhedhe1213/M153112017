@@ -25,8 +25,15 @@ class Mitra extends MY_Controller
 	{
         $id = $this->session->userdata('id');
         $profile = $this->mitra->getwhere('m_user',array('id'=>$id));
+        $getPoint = $this->mitra->getwhere('t_point',array('id_user'=>$id));
         if($profile) {
             $this->data['cek_catalog'] = $this->mitra->getwhere('t_catalog',array('id_user'=>$id));
+            if($getPoint){
+                $this->data['point'] = $getPoint['point'];
+            }else{
+                $this->data['point'] = '0';
+            }
+
             $this->data['profile'] = $profile;
             $this->load->view('template', $this->data);
         }else{
@@ -1059,11 +1066,14 @@ class Mitra extends MY_Controller
         $getIdTransaksi = $this->mitra->getwhere('t_transaksi_item',array('no_invoice'=>$no_invoice));
         $id_transaksi = $getIdTransaksi['id_transaksi'];
         $cekKepemilikanTransaksi = $this->db->get_where('t_transaksi',array('id'=>$id_transaksi,'nm_catalog'=>$GetCatalog['nm_catalog']))->num_rows();
+
         if ($cekKepemilikanTransaksi >  0) {
+
+            $getDataTransaksi = $this->mitra->getwhere('t_transaksi',array('id'=>$id_transaksi));
 
         #jika barang ditolak
         if($getIdTransaksi['no_resi'] == '0'){
-            $getDataTransaksi = $this->mitra->getwhere('t_transaksi',array('id'=>$id_transaksi));
+
             $getDataTransaksiItem = $this->mitra->getwhere('t_transaksi_item',array('no_invoice'=>$no_invoice),1);
 
             $insertDataTransaksiFailed = $this->mitra->create('t_transaksi_failed',array('id'=>$getDataTransaksi['id'],'nm_catalog'=>$getDataTransaksi['nm_catalog'],'kode_unik'=>$getDataTransaksi['kode_unik'],'total_pembayaran'=>$getDataTransaksi['total_pembayaran'],'batas_waktu'=>$getDataTransaksi['batas_waktu'],'status'=>$getDataTransaksi['status'],'payment_reseller'=>1,'created'=>$getDataTransaksi['created']));
@@ -1104,13 +1114,29 @@ class Mitra extends MY_Controller
                 $cekAllItem = $this->db->get_where('t_transaksi_item',array('id_transaksi'=>$id_transaksi,'status'=>1))->num_rows();
                 $cekTrFailed = $this->db->get_where('t_transaksi_failed',array('id'=>$id_transaksi,'status <'=>4))->num_rows();
 
+
                 if($updateData){
                     if($cekAllItem == 0){
                         $this->mitra->update('t_transaksi',array('id'=>$id_transaksi),array('status'=>4));
                         if($cekTrFailed > 0){
                             $this->mitra->update('t_transaksi_failed',array('id'=>$id_transaksi),array('status'=>4));
                         }
+
+                        #POINT Balance
+                        $pointAwal = $getDataTransaksi['total_pembayaran'] / 500;
+                        $point = floor($pointAwal);
+                        $cekDataUserPoint = $this->mitra->getwhereCustom('t_point','id',array('id_user'=>$id));
+
+                        if($cekDataUserPoint){
+                            $totalPoint = $point + $cekDataUserPoint['point'];
+                            $this->mitra->update('t_point',array('id_user'=>$id),array('point'=>$totalPoint));
+                        }else{
+                            $this->mitra->create('t_point',array('id_user'=>$id,'point'=>$point));
+                        }
+
                     }
+
+
 
                     #Send Email Confirm
                     $getEmailSeller = $this->mitra->getwhere('m_user',array('id'=>$getIdTransaksi['id_seller']));

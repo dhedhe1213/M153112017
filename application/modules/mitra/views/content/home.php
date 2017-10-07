@@ -33,6 +33,7 @@
         </ul>
         <hr>
 
+        <h3>TOTAL POINT <b><?php echo $point; ?></b></h3>
 
 <!--        <h3>Data Transaksi</h3>-->
 <!--        <ul>-->
