@@ -1130,8 +1130,10 @@ class Mitra extends MY_Controller
                         if($cekDataUserPoint){
                             $totalPoint = $point + $cekDataUserPoint['point'];
                             $this->mitra->update('t_point',array('id_user'=>$id),array('point'=>$totalPoint));
+                            $this->mitra->update('m_point',array('id_user'=>$id),array('point'=>$totalPoint));
                         }else{
                             $this->mitra->create('t_point',array('id_user'=>$id,'point'=>$point));
+                            $this->mitra->create('m_point',array('id_user'=>$id,'point'=>$point));
                         }
 
                     }
