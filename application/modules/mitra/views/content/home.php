@@ -24,6 +24,7 @@
             <li><a href="<?php echo base_url('mitra/histTransfer');?>">Riwayat Transfer</a></li>
             <li><a href="<?php echo base_url('mitra/daftarTransaksiRefund');?>">Status Refund</a></li>
             <li><a href="<?php echo base_url('mitra/histTransferRefund');?>">Riwayat Transfer Refund</a></li>
+            <li><a href="#" onclick="alert('Maaf periode penukaran belum di mulai')">Tukar Point</a></li>
 
 
 <!--            <li><a href="javascript:;">Masukan ID Teman</a></li>-->
@@ -43,6 +44,8 @@
 <!--            <li>Peringkat</li>-->
 <!---->
 <!--        </ul>-->
+        <hr>
+        *Perbanyak terus point anda dan tingkatkan level akun anda dari SILVER menjadi GOLD atau PLATINUM agar bisa menampung lebih banyak barang pada katalog yang anda miliki.
 
     </div>
 </div>
