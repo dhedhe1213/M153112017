@@ -1125,7 +1125,7 @@ class Mitra extends MY_Controller
                         #POINT Balance
                         $pointAwal = $getDataTransaksi['total_pembayaran'] / 500;
                         $point = floor($pointAwal);
-                        $cekDataUserPoint = $this->mitra->getwhereCustom('t_point','id',array('id_user'=>$id));
+                        $cekDataUserPoint = $this->mitra->getwhere('t_point',array('id_user'=>$id));
 
                         if($cekDataUserPoint){
                             $totalPoint = $point + $cekDataUserPoint['point'];
