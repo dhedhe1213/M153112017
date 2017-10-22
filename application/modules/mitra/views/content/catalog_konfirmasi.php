@@ -163,8 +163,8 @@
                                     <div class="col-lg-8">
                                         <select class="form-control" name="nama_bank_tujuan" id="nama_bank_tujuan">
                                             <option value="">Pilih</option>
-                                            <option>Bank BRI a/n Dede Irawan</option>
-                                            <option>Bank BCA a/n Dede Irawan</option>
+                                            <option>Bank BRI a/n Sendy Prasetyo</option>
+                                            <option>Bank BCA a/n Sendy Prasetyo</option>
                                             <option>Bank BNI a/n Sendy Prasetyo</option>
                                             <option>Bank Mandiri a/n Sendy Prasetyo</option>
                                         </select>

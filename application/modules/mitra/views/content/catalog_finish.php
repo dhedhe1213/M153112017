@@ -34,12 +34,12 @@
 
             <div class="col-md-3 col-sm-3">
                 <img src="<?php echo base_url('assets/images/img/bri.jpg');?>" width="140px">
-                <h4>762001003079536 </br> a/n </br> Dede Irawan</h4>
+                <h4>066701015800530 </br> a/n </br> Sendy Prasetyo</h4>
             </div>
 
             <div class="col-md-3 col-sm-3">
                 <img src="<?php echo base_url('assets/images/img/bca.jpg');?>" width="120px">
-                <div style="margin-top: 5%;"> <h4>0710084513 </br> a/n </br> Dede Irawan</h4></div>
+                <div style="margin-top: 5%;"> <h4>0670092534 </br> a/n </br> Sendy Prasetyo</h4></div>
             </div>
 
 

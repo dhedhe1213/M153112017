@@ -1324,6 +1324,7 @@ class Mitra extends MY_Controller
         $id_tipe_kurir = $this->input->post('cek_tipe_'.$id_tmp);
         $id_jenis_layanan = $this->input->post('select_kurir_'.$id_tmp);
 
+        
 
         $cekAlamatOnCart = $this->mitra->getwhere('t_catalog_cart',array('nm_catalog' => $GetCatalog['nm_catalog']));
         if($cekAlamatOnCart['id_alamat'] == ''){

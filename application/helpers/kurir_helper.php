@@ -47,7 +47,7 @@ function cekHarga($tipeKurir = false,$berat = false,$kotaAsal = false,$kotaTujua
 
         $hasil = json_decode($response, true);
 
-        echo "<option value=''>Pilih Layanan</option>";
+        //echo "<option value=''>Pilih Layanan</option>";
         for($i=0; $i<count($hasil['rajaongkir']['results'][0]['costs']); $i++) {
            if($hasil['rajaongkir']['results'][0]['costs'][$i]['description'] <> 'JNE Trucking') {
                for ($ix = 0; $ix < count($hasil['rajaongkir']['results'][0]['costs'][$i]['cost']); $ix++) {
