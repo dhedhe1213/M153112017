@@ -943,8 +943,8 @@ class Mitra extends MY_Controller
                             <table>
                             <tr><th>Bank Mandiri</th><th>Bank BNI</th><th>Bank BCA</th><th>Bank BRI</th></tr>
                             <tr><td align='center'>a/n</td><td align='center'>a/n</td><td align='center'>a/n</td><td align='center'>a/n</td></tr>
-                            <tr><td align='center'>Sendy Prasetyo</td><td align='center'>Sendy Prasetyo</td><td align='center'>Dede Irawan</td><td align='center'>Dede Irawan</td></tr>
-                            <tr><td align='center'>1640002106054</td><td align='center'>0573489917</td><td align='center'>0710084513</td><td align='center'>762001003079536</td></tr>
+                            <tr><td align='center'>Sendy Prasetyo</td><td align='center'>Sendy Prasetyo</td><td align='center'>Sendy Prasetyo</td><td align='center'>Sendy Prasetyo</td></tr>
+                            <tr><td align='center'>1640002106054</td><td align='center'>0573489917</td><td align='center'>0670092534</td><td align='center'>066701015800530</td></tr>
                             </table>
                             <br><br>
 
