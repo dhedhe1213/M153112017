@@ -1324,7 +1324,7 @@ class Mitra extends MY_Controller
         $id_tipe_kurir = $this->input->post('cek_tipe_'.$id_tmp);
         $id_jenis_layanan = $this->input->post('select_kurir_'.$id_tmp);
 
-        
+
 
         $cekAlamatOnCart = $this->mitra->getwhere('t_catalog_cart',array('nm_catalog' => $GetCatalog['nm_catalog']));
         if($cekAlamatOnCart['id_alamat'] == ''){
@@ -1379,6 +1379,10 @@ class Mitra extends MY_Controller
         $id_tmp = $this->input->post('id_tmp');
         //$id_tipe_kurir = $this->input->post('cek_tipe_'.$id_tmp);
         $id_jenis_layanan = $this->input->post('select_kurir_'.$id_tmp);
+
+        if($id_jenis_layanan == ''){
+         exit;
+        }
 
         $getIdItem = $this->mitra->getwhere('t_item',array('id_user'=>$id_tmp),1);
         $in = array();
