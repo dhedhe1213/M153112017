@@ -566,7 +566,7 @@ class Dashboard extends My_Controller
 
         $this->data['page_title'] = 'Konfirmasi Seller Pending';
         $this->data['main_view'] = 'content/seller_pending';
-        $this->data['data'] = $this->dashboard->getwhere('t_transaksi_item',array('status' => 1,'no_resi'=>'0'),1,false,'no_invoice');
+        $this->data['data'] = $this->dashboard->getwhere('t_transaksi_item',array('status' => 1,'no_resi'=>''),1,false,'no_invoice');
         $this->load->view('template_content', $this->data);
     }
 
