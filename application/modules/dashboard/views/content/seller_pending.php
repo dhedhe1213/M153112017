@@ -62,7 +62,7 @@
                                             ?></td>
                                         <td>
                                             <?php
-                                            if ($diff->d > 3) {
+                                            if ($diff->d < 3) {
                                             ?>
                                                 <a href="<?php echo base_url('dashboard/actCancelSellerPending/'.$row['no_invoice'].'/'.$row['id_seller']);?>" onclick="return confirm('are you sure to cancel?')">Cancel</a>
                                             <?php
