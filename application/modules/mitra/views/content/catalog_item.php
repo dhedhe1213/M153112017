@@ -134,7 +134,14 @@
 
 
 
-                    <?php if($row['stok'] == 0){ ?>
+                    <?php if($row['stok'] == 0){
+                        if($diff->d < 3){
+                            ?>
+                            <a href="<?php echo base_url('mitra/deleteItemCatalog/'.$row['id'].'/'.$nm_catalog);?>" onclick="return confirm('Anda yakin ingin menghapus barang ini?');" class="btn add2cart" style="margin-left: 10px;"><i class="fa fa-trash"></i> Hapus</a>
+                        <?php
+                        }
+                        ?>
+
                         <div class="sticker sticker-sold"></div>
                     <?php }else{?>
                         <a href="javascript:;" class="btn btn-default add2cart" onclick="add_to_cart(<?php echo $row['id'];?>)"><i class="fa fa-shopping-cart"></i> Beli</a>
